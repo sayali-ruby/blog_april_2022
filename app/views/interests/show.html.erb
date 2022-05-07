@@ -1,0 +1,9 @@
+<p style="color: green"><%= notice %></p>
+These are the interests in Profile
+	<%= @interest.type %>
+	<%= @interest.interest_name %>
+<div>
+	<%= link_to "Edit this interest", edit_interest_path(@interest) %>
+	<%= link_to "Back to interest", interest_path %>
+	<%= button_to "Destroy this interest", @interest, method: :delete %>
+</div>
