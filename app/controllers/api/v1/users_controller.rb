@@ -6,7 +6,7 @@ class Api::V1::UsersController < ApplicationController
     end
 
     def show
-        @user = User.find_by(params[:id])
+        @user = User.find_by(id: params[:id])
         render json: @user
     end
 
@@ -17,7 +17,7 @@ class Api::V1::UsersController < ApplicationController
 
     def update
         @user = User.find_by(id: params[:id])
-        User.update(email: params[:email],first_name: params[:first_name],last_name: params[:last_name])
+        @user.update(email: params[:email],first_name: params[:first_name],last_name: params[:last_name])
         render json: @user
     end
 
