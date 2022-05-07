@@ -10,16 +10,25 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_05_07_115546) do
+ActiveRecord::Schema.define(version: 2022_05_07_164822) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "interests", force: :cascade do |t|
-    t.string "type"
+  create_table "comments", force: :cascade do |t|
+    t.text "comment"
+    t.bigint "user_id"
+    t.bigint "post_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.string "interest_name"
+    t.index ["post_id"], name: "index_comments_on_post_id"
+    t.index ["user_id"], name: "index_comments_on_user_id"
+  end
+
+  create_table "interests", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "people", force: :cascade do |t|
@@ -47,6 +56,13 @@ ActiveRecord::Schema.define(version: 2022_05_07_115546) do
     t.integer "user_id"
   end
 
+  create_table "table_user_interests", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "interest_id", null: false
+    t.index ["interest_id"], name: "index_table_user_interests_on_interest_id"
+    t.index ["user_id"], name: "index_table_user_interests_on_user_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "email"
     t.string "first_name"
@@ -55,4 +71,6 @@ ActiveRecord::Schema.define(version: 2022_05_07_115546) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  add_foreign_key "table_user_interests", "interests"
+  add_foreign_key "table_user_interests", "users"
 end

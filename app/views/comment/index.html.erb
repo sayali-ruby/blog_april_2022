@@ -1,0 +1,21 @@
+<h1> Comments</h1>
+	<table border=1>
+		<thead>
+			<tr>
+				<th>Comment</th>
+			</tr>
+		</thead>
+		<tbody>
+			<%= @comments.each do |comment| %>
+			<tr>
+				<td><%= comment.comment %></td>
+				<td><%= link_to "Show", comment %></td>
+				<td><%= link_to "Edit", edit_comment_path(comment) %></td>
+				<td><%= link_to "Delete", comment_path(comment), method: :delete %></td>
+				<td><%= link_to "New", new_post_path %>
+			</tr>
+			<% end %>
+		</tbody>
+	</table>
+
+

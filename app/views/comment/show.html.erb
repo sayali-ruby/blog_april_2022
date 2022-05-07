@@ -1,0 +1,8 @@
+
+This is Comment
+<%= @comment.comment %>
+
+<div>
+	<% link_to "Edit this comment", edit_comment_path %>
+	<%= link_to "Delete this comment", @comment, method: :delete %>
+</div>
