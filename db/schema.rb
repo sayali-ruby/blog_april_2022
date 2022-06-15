@@ -10,10 +10,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_05_07_164822) do
+ActiveRecord::Schema.define(version: 2022_06_15_114856) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "artists", force: :cascade do |t|
+    t.string "first_name"
+    t.string "last_name"
+    t.string "email"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
 
   create_table "comments", force: :cascade do |t|
     t.text "comment"
@@ -31,6 +39,23 @@ ActiveRecord::Schema.define(version: 2022_05_07_164822) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  create_table "interests_users", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "interest_id", null: false
+    t.index ["interest_id"], name: "index_interests_users_on_interest_id"
+    t.index ["user_id"], name: "index_interests_users_on_user_id"
+  end
+
+  create_table "items", force: :cascade do |t|
+    t.string "title"
+    t.text "description"
+    t.string "image_url"
+    t.bigint "artist_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["artist_id"], name: "index_items_on_artist_id"
+  end
+
   create_table "people", force: :cascade do |t|
     t.string "name"
     t.bigint "parent_id"
@@ -46,6 +71,7 @@ ActiveRecord::Schema.define(version: 2022_05_07_164822) do
     t.datetime "updated_at", precision: 6, null: false
     t.text "description"
     t.boolean "is_deleted", default: false
+    t.integer "status", default: 0
     t.index ["user_id"], name: "index_posts_on_user_id"
   end
 
@@ -56,13 +82,6 @@ ActiveRecord::Schema.define(version: 2022_05_07_164822) do
     t.integer "user_id"
   end
 
-  create_table "table_user_interests", force: :cascade do |t|
-    t.bigint "user_id", null: false
-    t.bigint "interest_id", null: false
-    t.index ["interest_id"], name: "index_table_user_interests_on_interest_id"
-    t.index ["user_id"], name: "index_table_user_interests_on_user_id"
-  end
-
   create_table "users", force: :cascade do |t|
     t.string "email"
     t.string "first_name"
@@ -71,6 +90,7 @@ ActiveRecord::Schema.define(version: 2022_05_07_164822) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
-  add_foreign_key "table_user_interests", "interests"
-  add_foreign_key "table_user_interests", "users"
+  add_foreign_key "interests_users", "interests"
+  add_foreign_key "interests_users", "users"
+  add_foreign_key "items", "artists"
 end

@@ -1,11 +1,13 @@
     class PostsController < ApplicationController
 
+        before_action :fetch_post, except: [:new, :index, :create]
+
         def index
             @posts = Post.all
         end
 
         def show
-            @post = Post.find_by(id: params[:id])
+            
         end
 
         def new
@@ -19,7 +21,7 @@
 
 
         def edit
-            @post = Post.find_by(id: params[:id])
+            
         end
 
 
@@ -37,15 +39,19 @@
         end
 
         def update
-            @post = Post.find_by(id: params[:id])
+            
             @post.update(title: params[:post][:title], description: params[:post][:description])
             redirect_to post_path(@post)
         end
 
         def destroy
-            @post = Post.find(params[:id])
+            
             @post.destroy
             # render json: @post
             redirect_to posts_path
+        end
+
+        def fetch_post
+            @post = Post.find_by(id: params[:id])
         end
     end
